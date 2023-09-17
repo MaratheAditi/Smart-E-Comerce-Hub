@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Description</title>
+    <link rel="stylesheet" href={{url_for('static', filename='css/home.css')}}
+    />
+     <link rel="stylesheet" href={{ url_for('static',
+    filename='css/topStyle.css')}} />
+
+
+
+     <link rel="stylesheet" href={{ url_for('static',
+    filename='css/productDescription.css')}} />
+        <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"  
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+
+    />
+   
+  </head>
+  <body>
+    <div id="title">
+      <a href="/">
+   
+      </a>
+
+      {% if not loggedIn %}
+      <div id="signInButton">
+        <a class="link" href="/loginForm">Sign In</a>
+      </div>
+      {% else %}
+      <div class="dropdown">
+        <button class="dropbtn">Hello, <br />{{firstName}}</button>
+        <div class="dropdown-content">
+          <!-- <a href="/account/orders">Your orders</a> -->
+          <a href="/account/profile">Your profile</a>
+          <hr />
+          <a href="/logout">Sign Out</a>
+        </div>
+        
+      </div>
+      {% endif %}
+ 
+      </div>
+    </div>
+    <section class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="item">
+            <div id="productName">
+              <h1>{{data[1]}}</h1>
+            </div>
+            <div class="pdt_img">
+              <img src={{url_for('static', filename='uploads/'+data[4]) }}
+              id="productImage"/>
+            </div>
+
+            <div id="productDescription">
+              <h2>Details</h2>
+              <table id="descriptionTable">
+                <tr>
+                  <td>Name</td>
+                  <td>{{data[1]}}</td>
+                </tr>
+                <tr>
+                  <td>Price</td>
+                  <td>Rs {{data[2]}}</td>
+                </tr>
+                <tr>
+                  <td>Stock</td>
+                  <td>{{data[5]}}</td>
+                </tr>
+              </table>
+              
+              <h2>Description</h2>
+              <p>{{data[3]}}</p>
+
+              <h2>Reviews</h2>
+            {%for review in my%}
+  			       <blockquote class="blockquote">
+    <p class="mb-0">{{ review["content"] }} , {{ review["rating"] }}</p>
+      <footer class="blockquote-footer">
+        From @{{ review["firstName"].split("@")[0] }}
+      </footer>
+  </blockquote>
+             {% endfor %}
+			
+
+
+
+
+
+
+
+
+
+<h2>Your Rating</h2>
+ <form action="/productDescription/create?productId={{request.args.get('productId')}}" method="POST" >
+    <div class="star-rating">
+      <input id="5" type="radio" name="rating" value="5" />
+      <label for="5" title="5 stars">
+        <i class="active fa fa-star" aria-hidden="true"></i>
+      </label>
+      <input id="4" type="radio" name="rating" value="4" />
+      <label for="4" title="4 stars">
+        <i class="active fa fa-star" aria-hidden="true"></i>
+      </label>
+      <input id="3" type="radio" name="rating" value="3" />
+      <label for="3" title="3 stars">
+        <i class="active fa fa-star" aria-hidden="true"></i>
+      </label>
+      <input id="2" type="radio" name="rating" value="2" />
+      <label for="2" title="2 stars">
+        <i class="active fa fa-star" aria-hidden="true"></i>
+      </label>
+      <input id="1" type="radio" name="rating" value="1" />
+      <label for="1" title="1 star">
+        <i class="active fa fa-star" aria-hidden="true"></i>
+      </label>
+    </div>
+     
+      <div class="form-group">
+      <label for="exampleFormControInput1">Your name</label>
+      <input type='text' class="form-control" rows="3" name="review-name">   
+      </div>
+    
+             
+      <div class="form-group">
+      <label for="exampleFormControlTextarea1">Your review</label>
+      <textarea class="form-control" rows="3" name="review-text">   
+      </textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+            </div>
+     
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </body>
+</html>
